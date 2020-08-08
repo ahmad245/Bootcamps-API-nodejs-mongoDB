@@ -1,19 +1,26 @@
 const express = require("express");
 const {
   getAll,
-  getBYId,
+  getById,
   post,
   put,
   remove,
   getByRadius,
 } = require("./../controller/bootcampsController");
+const courseRoute=require('./course');
 
+const {protect,authorize}=require('../middelware/auth');
+
+const advancedResults=require('./../middelware/advancedResults');
+const Bootcamp=require('../models/Bootcamp');
 const route = express.Router();
+
+route.use('/:bootcampId/courses',courseRoute);
 
 route.route("/radius/:zipcode/:distance").get(getByRadius);
 
-route.route("/").get(getAll).post(post);
+route.route("/").get(advancedResults(Bootcamp,'courses'),getAll).post(protect,authorize('admin','publisher'), post);
 
-route.route("/:id").get(getBYId).put(put).delete(remove);
+route.route("/:id").get(getById).put(protect,authorize('admin','publisher'),put).delete(protect,authorize('admin','publisher'),remove);
 
 module.exports = route;
