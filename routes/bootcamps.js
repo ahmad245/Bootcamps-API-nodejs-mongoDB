@@ -7,7 +7,9 @@ const {
   remove,
   getByRadius,
 } = require("./../controller/bootcampsController");
+
 const courseRoute=require('./course');
+const reviewRoute=require('./review');
 
 const {protect,authorize}=require('../middelware/auth');
 
@@ -16,6 +18,7 @@ const Bootcamp=require('../models/Bootcamp');
 const route = express.Router();
 
 route.use('/:bootcampId/courses',courseRoute);
+route.use('/:bootcampId/courses',reviewRoute);
 
 route.route("/radius/:zipcode/:distance").get(getByRadius);
 
