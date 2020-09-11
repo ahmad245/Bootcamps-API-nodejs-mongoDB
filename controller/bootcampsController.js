@@ -3,11 +3,12 @@ const geocoder = require("../utils/geocoder");
 
 module.exports.getAll = async (req, res, next) => {
     res.status(200).json(res.advancedResults);
+    
 };
 module.exports.getById = async (req, res, next) => {
-  const bootcamp = await Bootcamp.findById(req.params.id);
+  const bootcamp = await Bootcamp.findById(req.params.id).cache({key:req.params.id});
   if (!bootcamp) {
-    return res.status(400).json({ success: false ,error: "Resource not found"});
+    return res.status(404).json({ success: false ,error: "Resource not found"});
   }
   res.status(200).json({ data: bootcamp, success: true });
 };
@@ -16,7 +17,7 @@ module.exports.post = async (req, res, next) => {
  req.body.user = req.user.id;
 
  // Check for published bootcamp
- const publishedBootcamp = await Bootcamp.findOne({ user: req.user.id });
+ const publishedBootcamp = await Bootcamp.findOne({ user: req.user.id }).cache({key:req.user.id});
 
  // If the user is not an admin, they can only add one bootcamp
  if (publishedBootcamp && req.user.role !== 'admin') {
@@ -29,6 +30,8 @@ module.exports.post = async (req, res, next) => {
 module.exports.put = async (req, res, next) => {
 
   let bootcamp=await Bootcamp.findById(req.params.id);
+  console.log(bootcamp);
+  
   if (!bootcamp) {
     return res.status(404).json({ success: false,error:`Bootcamp not found with id of ${req.params.id}` });
   }

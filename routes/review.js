@@ -12,6 +12,8 @@ const Review = require('../models/Review');
 const router = express.Router({ mergeParams: true });
 
 const advancedResults = require('../middelware/advancedResults');
+const {clearCache}=require('../middelware/clearCache');
+
 const { protect, authorize } = require('../middelware/auth');
 
 router
@@ -23,12 +25,12 @@ router
     }),
     getAll
   )
-  .post(protect, authorize('user', 'admin'), post);
+  .post(protect, authorize('user', 'admin'),clearCache('Review'), post);
 
 router
   .route('/:id')
   .get(getById)
-  .put(protect, authorize('user', 'admin'), put)
-  .delete(protect, authorize('user', 'admin'), remove);
+  .put(protect, authorize('user', 'admin'),clearCache('Review'), put)
+  .delete(protect, authorize('user', 'admin'),clearCache('Review'), remove);
 
 module.exports = router;

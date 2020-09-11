@@ -3,6 +3,8 @@ const dotenv=require('dotenv');
 const morgan=require('morgan');
 var path = require('path');
 
+require('./sevise/cache');
+
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
 const xss = require('xss-clean');
@@ -53,6 +55,8 @@ require('./startup/logging')();
 require('./startup/routes')(app);
 
 const PORT=process.env.PORT || 500;
-app.listen(PORT,()=>{
+const server=app.listen(PORT,()=>{
     console.log(`server connect to port ${PORT} `);
 })
+
+module.exports=server;

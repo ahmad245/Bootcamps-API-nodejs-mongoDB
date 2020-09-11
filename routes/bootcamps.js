@@ -15,6 +15,9 @@ const {protect,authorize}=require('../middelware/auth');
 
 const advancedResults=require('./../middelware/advancedResults');
 const Bootcamp=require('../models/Bootcamp');
+
+const {clearCache}=require('../middelware/clearCache');
+
 const route = express.Router();
 
 route.use('/:bootcampId/courses',courseRoute);
@@ -22,8 +25,8 @@ route.use('/:bootcampId/courses',reviewRoute);
 
 route.route("/radius/:zipcode/:distance").get(getByRadius);
 
-route.route("/").get(advancedResults(Bootcamp,'courses'),getAll).post(protect,authorize('admin','publisher'), post);
+route.route("/").get(advancedResults(Bootcamp,'courses'),getAll).post(protect,authorize('admin','publisher'),clearCache('Bootcamp') ,post);
 
-route.route("/:id").get(getById).put(protect,authorize('admin','publisher'),put).delete(protect,authorize('admin','publisher'),remove);
+route.route("/:id").get(getById).put(protect,authorize('admin','publisher'),clearCache('Bootcamp'),put).delete(protect,authorize('admin','publisher'),clearCache('Bootcamp'),remove);
 
 module.exports = route;

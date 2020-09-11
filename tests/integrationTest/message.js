@@ -1,0 +1,31 @@
+module.exports.message=(object)=>{
+    return {
+        all:`should return all ${object.name}`,
+        one:`should return a ${object.name} if valid id is passed'`,
+        userNotlogin:`should return 401 if user is not login`,
+        userLoginvalidId:`should return a ${object.name} if user login and valid id is passed`,
+        invalidId:`should return 404 if invalid id is passed`,
+        noObject:`should return 404 if no ${object.name} with the given id valid`,
+        lessthan:`should return 400 if ${object.paramName} lessthan ${object.param} charachter`,
+        morthan:`should return 400 if ${object.paramName} morthan ${object.param} charachter`,
+        inValidProp:`should return 400 if ${object.paramName} invalid`,
+        saveObject:`should save ${object.name} in database`,
+        returnInBody:`should return ${object.paramName} in body`,
+        idNotFound:`should return 404 if ${object.name} with the given id was not found`,
+        updateIfInputValid:`should update the ${object.name} if input is valid`,
+        returnUpdated:`should return the updated updated ${object.name} if it is valid`,
+        deleteIfInputValid:`should delete the ${object.name} if input is valid`,
+        returnDelete:`should return the removed ${object.name}`,
+        noPermission:'should return 403 if user do not have permission',
+        noActive:'should return 403 if user no active yet',
+        withPermissionRead:`should return all ${object.name} if user has read permission `,
+        withPermissionNotRead:`should return 403 if user have permission but do not have permission read`,
+        withPermissionWrite:`should save ${object.name} if user has write permission `,
+        withPermissionNotWrite:`should return 403 if user have permission but do not have permission write`,
+        withPermissionUpdate:`should save ${object.name} if user has Update permission `,
+        withPermissionNotUpdate:`should return 403 if user have permission but do not have permission Update`,
+        withPermissionDelete:`should delete ${object.name} if user has Delete permission `,
+        withPermissionNotDelete:`should return 403 if user have permission but do not have permission Delete`,
+        notSamePerson:'should return 403 if It is not the same person who created the question'
+      }
+    }

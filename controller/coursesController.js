@@ -6,14 +6,14 @@ module.exports.getAll = async (req, res, next) => {
   if (req.params.bootcampId) {
     const courses = await Course.find({ bootcamp: req.params.bootcampId });
     res
-      .status(400)
+      .status(200)
       .json({ success: true, count: courses.length, data: courses });
   } else {
     res.status(200).json(res.advancedResults);
   }
 };
 module.exports.getById = async (req, res, next) => {
-  const course = await Course.findById(req.params.id);
+  const course = await Course.findById(req.params.id).cache({key:req.params.id});
   if (!course) {
     return res
       .status(400)
@@ -24,7 +24,8 @@ module.exports.getById = async (req, res, next) => {
 
 module.exports.post = async (req, res, next) => {
   req.body.bootcamp = req.params.bootcampId;
-  const bootcamp = await Bootcamp.findById(req.params.bootcampId);
+  req.body.user=req.user.id;
+  const bootcamp = await Bootcamp.findById(req.params.bootcampId).cache({key:req.params.bootcampId});
   if (!bootcamp) {
     return res
       .status(404)

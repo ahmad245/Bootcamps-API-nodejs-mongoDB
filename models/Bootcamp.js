@@ -3,19 +3,22 @@ const slugify=require('slugify');
 const geocoder = require('../utils/geocoder');
 const Course=require('./Course');
 
+
 const bootcampSchema=new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Please add a name'],
         unique: true,
         trim: true,
-        maxlength: [50, 'Name can not be more than 50 characters']
+        maxlength: [50, 'Name can not be more than 50 characters'],
+        minlength:[3, 'Name can not be less than 3 characters']
       },
       slug: String,
       description: {
         type: String,
         required: [true, 'Please add a description'],
-        maxlength: [500, 'Description can not be more than 500 characters']
+        maxlength: [500, 'Description can not be more than 500 characters'],
+        minlength:[3, 'Description can not be less than 3 characters']
       },
       website: {
         type: String,

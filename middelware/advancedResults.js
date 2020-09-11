@@ -1,5 +1,7 @@
 const advancedResults = (model, populate) => async (req, res, next) => {
     let query;
+    
+    
   
     // Copy req.query
     const reqQuery = { ...req.query };
@@ -18,6 +20,7 @@ const advancedResults = (model, populate) => async (req, res, next) => {
   
     // Finding resource
     query = model.find(JSON.parse(queryStr));
+    
   
     // Select Fields
     if (req.query.select) {
@@ -40,7 +43,7 @@ const advancedResults = (model, populate) => async (req, res, next) => {
     const endIndex = page * limit;
     const total = await model.countDocuments(JSON.parse(queryStr));
   
-    query = query.skip(startIndex).limit(limit);
+    query = query.skip(startIndex).limit(limit).cache({key:model.modelName});
   
     if (populate) {
       query = query.populate(populate);

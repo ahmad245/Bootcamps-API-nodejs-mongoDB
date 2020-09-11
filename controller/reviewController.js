@@ -7,7 +7,7 @@ const Bootcamp = require('../models/Bootcamp');
 // @access    Public
 exports.getAll = async (req, res, next) => {
   if (req.params.bootcampId) {
-    const reviews = await Review.find({ bootcamp: req.params.bootcampId });
+    const reviews = await Review.find({ bootcamp: req.params.bootcampId }).cache({key:req.params.bootcampId});
 
     return res.status(200).json({
       success: true,
@@ -26,7 +26,7 @@ exports.getById = async (req, res, next) => {
   const review = await Review.findById(req.params.id).populate({
     path: 'bootcamp',
     select: 'name description'
-  });
+  }).cache({key:req.params.id});
 
   if (!review) {
     return  res.status(404).json({ success: false ,error: `No review found with the id of ${req.params.id}`});
