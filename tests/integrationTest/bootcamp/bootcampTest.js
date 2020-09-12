@@ -20,10 +20,10 @@ module.exports.bootcampTest = () => {
     await User.remove({});
     await server.close();
   });
-  describe("GET/", getAll(server));
+ describe("GET/", getAll(server));
 
   describe("GET /:id", getById(server));
 
   describe('POST /',post(server));
-  describe('PUT /',put(server));
+  describe.only('PUT /',put(server));
 };

@@ -9,6 +9,8 @@ const User = require("../../../models/User");
 
 const Service=require('./../service');
 
+const name="bootcamp";
+
 module.exports.put = (server) => {
     const service=new Service(server,bootcampApi().PUT);
   return () => {
@@ -17,7 +19,6 @@ module.exports.put = (server) => {
     let obj={};
     let user;
     let cha = "";
-   // const bootcamp = new BootCampModel();
 
     const exec = async () => {
         return await service.putValue();
@@ -31,21 +32,32 @@ module.exports.put = (server) => {
 
     beforeEach(async () => {
       const userToken = await bootcamp.getUserToken();
-      const bootcampMock= await bootcamp.create();
-      
-      
-      
-      service.setId(bootcampMock.ops[0]._id);
-      
       token = userToken.token;
       user = userToken.user;
-      console.log(user);
+    
+      const bootcampMock= await bootcamp.createBootcampValidWithUser(user._id);
+      service.setId(bootcampMock.ops[0]._id);
       service.setToken(token);
     });
     afterEach(async () => {
       
     });
-    it(message({ name: "bootcamp" }).userNotlogin, async () => {
+    it(message({name}).noPermission,async()=>{
+       const  userToken=await bootcamp.getUserToken('ahmad@gmail.com');
+         obj = bootcamp.getBootcampValid();
+
+         console.log(token);
+         
+        service.setToken(userToken.token);
+       
+        service.setObj(obj);
+        const res = await exec();
+        expect(res.body.success).toBeFalsy();
+        expect(res.status).toBe(403);
+
+
+    })
+    it(message({ name }).userNotlogin, async () => {
       token = "";
       obj = bootcamp.getBootcampValid();
       service.setObj(obj);
@@ -55,13 +67,15 @@ module.exports.put = (server) => {
       expect(res.body.success).toBeFalsy();
     });
 
-    it(message({ name: "bootcamp" }).saveObject, async () => {
+
+    it(message({ name }).saveObject, async () => {
       obj = bootcamp.getBootcampValid();
       service.setObj(obj);
       const res = await exec();
 
-      const result = await Bootcamp.find({ name: "bootcamp1" });
-
+      const result = await Bootcamp.find({ name:"bootcamp" });
+       
+       
       expect(result).not.toBeNull();
       expect(res.body.success).toBeTruthy();
       expect(result.some((b) => b.name == obj.name)).toBeTruthy();
@@ -82,109 +96,79 @@ module.exports.put = (server) => {
       ).toBeTruthy();
 
       expect(result[0].careers).toEqual(expect.arrayContaining(obj.careers));
-    });
+    })
 
-    // it(
-    //   message({ name: "bootcamp", paramName: "name", param: 2 }).lessthan,
-    //   async () => {
-    //     cha = "b";
-    //     bootcamp.prop = cha;
-    //     obj = bootcamp.getInvalidBcName();
-    //     service.setObj(obj);
-    //     await verfy();
-    //   }
-    // );
-    // it(
-    //   message({ name: "bootcamp", paramName: "name", param: 50 }).morthan,
-    //   async () => {
-    //     let cha = new Array(52).join("a");
+    it(message({ name, paramName: "name", param: 2 }).lessthan,async () => {
+        cha = "b";
+        bootcamp.prop = cha;
+        obj = bootcamp.getInvalidBcName();
+        service.setObj(obj);
+        await verfy();
+      } )
+    it(  message({ name, paramName: "name", param: 50 }).morthan,async () => {
+        let cha = new Array(52).join("a");
 
-    //     bootcamp.prop = cha;
-    //     obj = bootcamp.getInvalidBcName();
-    //     service.setObj(obj);
-    //     await verfy();
-    //   }
-    // );
+        bootcamp.prop = cha;
+        obj = bootcamp.getInvalidBcName();
+        service.setObj(obj);
+        await verfy();
+      } )
 
-    // it(
-    //   message({ name: "bootcamp", paramName: "description", param: 2 })
-    //     .lessthan,
-    //   async () => {
-    //     bootcamp.prop = cha;
-    //     obj = bootcamp.getInvalidBcDescription();
-    //     service.setObj(obj);
-    //     await verfy();
-    //   }
-    // );
-    // it(
-    //   message({ name: "bootcamp", paramName: "description", param: 500 })
-    //     .morthan,
-    //   async () => {
-    //     let cha = new Array(502).join("a");
+    it( message({ name, paramName: "description", param: 2 }) .lessthan,async () => {
+        bootcamp.prop = cha;
+        obj = bootcamp.getInvalidBcDescription();
+        service.setObj(obj);
+        await verfy();
+      }
+    );
+    it(message({ name, paramName: "description", param: 500 }) .morthan,async () => {
+        let cha = new Array(502).join("a");
 
-    //     bootcamp.prop = cha;
-    //     obj = bootcamp.getInvalidBcDescription();
-    //     service.setObj(obj);
-    //     await verfy();
-    //   }
-    // );
-    // it(
-    //   message({ name: "bootcamp", paramName: "website" }).inValidProp,
-    //   async () => {
-    //     cha = "website";
+        bootcamp.prop = cha;
+        obj = bootcamp.getInvalidBcDescription();
+        service.setObj(obj);
+        await verfy();
+      }
+    );
+    it( message({ name, paramName: "website" }).inValidProp,async () => {
+        cha = "website";
 
-    //     bootcamp.prop = cha;
-    //     obj = bootcamp.getInvalidBcWebsite();
-    //     service.setObj(obj);
-    //     await verfy();
-    //   }
-    // );
-    // it(
-    //   message({ name: "bootcamp", paramName: "email" }).inValidProp,
-    //   async () => {
-    //     cha = "email";
+        bootcamp.prop = cha;
+        obj = bootcamp.getInvalidBcWebsite();
+        service.setObj(obj);
+        await verfy();
+      }
+    );
+    it( message({ name, paramName: "email" }).inValidProp,async () => {
+        cha = "email";
 
-    //     bootcamp.prop = cha;
-    //     obj = bootcamp.getInvalidBcEmail();
-    //     service.setObj(obj);
-    //     const res = await exec();
-    //     expect(res.body.success).toBeFalsy();
-    //     expect(res.status).toBe(400);
-    //   }
-    // );
+        bootcamp.prop = cha;
+        obj = bootcamp.getInvalidBcEmail();
+        service.setObj(obj);
+        const res = await exec();
+        expect(res.body.success).toBeFalsy();
+        expect(res.status).toBe(400);
+      }
+    );
 
-    // it(
-    //   message({ name: "bootcamp", paramName: "phone", param: 20 }).morthan,
-    //   async () => {
-    //     let cha = new Array(22).join("1");
+    it( message({ name, paramName: "phone", param: 20 }).morthan,async () => {
+        let cha = new Array(22).join("1");
 
-    //     bootcamp.prop = cha;
-    //     obj = bootcamp.getInvalidBcPhone();
-    //     service.setObj(obj);
-    //     await verfy();
-    //   }
-    // );
-    // it(
-    //   message({ name: "bootcamp", paramName: "address" }).inValidProp,
-    //   async () => {
-    //     bootcamp.prop = cha;
-    //     obj = bootcamp.getBootcampValid();
-    //     delete obj.address;
-    //     service.setObj(obj);
-
-    //     await verfy();
-    //   }
-    // );
-    // it(
-    //   message({ name: "bootcamp", paramName: "careers" }).inValidProp,
-    //   async () => {
-    //     let cha = ["aaa"];
-    //     bootcamp.prop = cha;
-    //     obj = bootcamp.getInvalidBcCareers();
-    //     service.setObj(obj);
-    //     await verfy();
-    //   }
-    // );
+        bootcamp.prop = cha;
+        obj = bootcamp.getInvalidBcPhone();
+        service.setObj(obj);
+        await verfy();
+      }
+    );
+  
+    it( message({ name, paramName: "careers" }).inValidProp,async () => {
+        let cha = ["aaa"];
+        bootcamp.prop = cha;
+        obj = bootcamp.getInvalidBcCareers();
+        service.setObj(obj);
+        await verfy();
+      }
+    );
   };
 };
 

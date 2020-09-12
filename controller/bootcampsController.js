@@ -30,7 +30,7 @@ module.exports.post = async (req, res, next) => {
 module.exports.put = async (req, res, next) => {
 
   let bootcamp=await Bootcamp.findById(req.params.id);
-  console.log(bootcamp);
+  
   
   if (!bootcamp) {
     return res.status(404).json({ success: false,error:`Bootcamp not found with id of ${req.params.id}` });
@@ -38,7 +38,7 @@ module.exports.put = async (req, res, next) => {
 
   // If the user is not an admin, they can only add one bootcamp
  if (bootcamp.user.toString() !== req.user.id  && req.user.role !== 'admin') {
-  return  res.status(401).json({ success: false,error:`User ${req.user.id} is not authorized to update this bootcamp` });
+  return  res.status(403).json({ success: false,error:`User ${req.user.id} is not authorized to update this bootcamp` });
 }
 
 

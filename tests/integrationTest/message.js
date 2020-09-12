@@ -13,7 +13,7 @@ module.exports.message=(object)=>{
         returnInBody:`should return ${object.paramName} in body`,
         idNotFound:`should return 404 if ${object.name} with the given id was not found`,
         updateIfInputValid:`should update the ${object.name} if input is valid`,
-        returnUpdated:`should return the updated updated ${object.name} if it is valid`,
+        returnUpdated:`should return the updated  ${object.name} if it is valid`,
         deleteIfInputValid:`should delete the ${object.name} if input is valid`,
         returnDelete:`should return the removed ${object.name}`,
         noPermission:'should return 403 if user do not have permission',

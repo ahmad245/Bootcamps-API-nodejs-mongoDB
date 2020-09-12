@@ -18,19 +18,24 @@ module.exports= class Repository{
       return    await this.model.collection.insertOne(this.getCollecttionValid()[0])
          //.create(this.getCollecttionValid()[0]);
         }
+
+        async createBootcampValidWithUser(user=null){
+      
+            return await this.model.collection.insertOne(this.validCollection({user})[0]);
+        }  
     async remove(){
         await this.model.collection.dropIndexes();
         await  this.model.collection.remove({});
      }
  
-    async getUserToken(){
-        const {token,user}=await new userModel().getUser();
+    async getUserToken(email=null){
+        const {token,user}=await new userModel().getUser(email);
         this.user=user;
         this.token=token;
         return {token,user};
      }
  
      getCollecttionValid(){
-         return this.validCollection;
+         return this.validCollection();
      }
 }

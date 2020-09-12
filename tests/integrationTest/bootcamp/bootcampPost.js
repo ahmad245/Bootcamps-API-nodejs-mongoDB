@@ -167,6 +167,7 @@ module.exports.post = (server) => {
     it(
       message({ name: "bootcamp", paramName: "address" }).inValidProp,
       async () => {
+        cha="ahmad";
         bootcamp.prop = cha;
         obj = bootcamp.getBootcampValid();
         delete obj.address;

@@ -9,6 +9,7 @@ class BootcampModel extends Repository{
     getBootcampValid(){
       return  bootcamp();
   }
+
     getInvalidBcName(){
 
        return bootcamp({name:this.prop});
@@ -35,7 +36,7 @@ class BootcampModel extends Repository{
 
 }
 
-module.exports=new BootcampModel(Bootcamp,validCollection());
+module.exports=new BootcampModel(Bootcamp,validCollection);
 // constructor(name,description,website,phone,email,address,careers,housing,jobAssistance,jobGuarantee,acceptGi){
 //     this.name=name;
 //     this.description=description;

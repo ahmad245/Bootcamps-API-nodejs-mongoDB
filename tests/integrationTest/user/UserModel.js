@@ -7,14 +7,14 @@ const {user}=require('./seed');
 class UserModel{
     constructor(){}
 
-  async  getUser(){
-       const user =await User.create(this.getValidUser());
+  async  getUser(email=null){
+       const user =await User.create(this.getValidUser(email));
       const  token = user.getSignedJwtToken();
       return {token,user};
     }
 
-    getValidUser(){
-        return user();
+    getValidUser(email){
+        return user({email});
     }
 }
 
