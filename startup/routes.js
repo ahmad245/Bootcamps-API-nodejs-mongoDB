@@ -12,7 +12,7 @@ module.exports=(app)=>{
     app.use('/api/v1/courses',coursesRoute);
     app.use('/api/v1/auth',authRoute);
     app.use('/api/v1/users', userRoute);
-    app.use('/api/v1/reviews', userRoute);
+    app.use('/api/v1/reviews', reviewRoute);
     
     app.use(error);
 }

@@ -1,40 +1,27 @@
-const request = require("supertest");
 const { bootcampApi } = require("./bootcampApi");
 const { message } = require("./../message");
-const bootcampModel = require("./bootcamp");
-const mongoose = require("mongoose");
+const bootcamp = require("./bootcamp");
 
-const Bootcamp = require("../../../models/Bootcamp");
+const { noObject,invalidId} = require("./../CommonFailTest");
 
-const Service=require('./../service');
+const Service = require("./../service");
 
-module.exports.getById=(server)=>{
-  const service=new Service(server, bootcampApi().GETBYID);
-  return   ()=>{
+module.exports.getById = (server) => {
+  const service = new Service(server, bootcampApi().GETBYID);
+  return () => {
+    const exec = async () => {
+      return await service.getById();
+    };
     it(message({ name: "bootcamp" }).one, async () => {
-        //const bootcampModel = new BootCampModel();
-        const bootcamp = await bootcampModel.create();
+      const result = await bootcamp.create();
 
-       service.setId(bootcamp.ops[0]._id);
-        const res =await service.getById();
+      service.setId(result.ops[0]._id);
+      const res = await exec();
+      expect(res.status).toBe(200);
+      expect(res.body.data).toHaveProperty("name");
+    });
+    it( message({ name: "bootcamp" }).invalidId,invalidId(bootcamp, service, exec));
 
-        // const res = await request(server).get(
-        //   bootcampApi(bootcamp.ops[0]._id).GETBYID
-        // );
-        expect(res.status).toBe(200);
-        expect(res.body.data).toHaveProperty("name");
-      });
-      it(message({ name: "bootcamp" }).invalidId, async () => {
-        service.setId(1);
-        const res = await service.getById();
-        expect(res.status).toBe(404);
-      });
-      it(message({ name: "bootcamp" }).noObject, async () => {
-        const id = mongoose.Types.ObjectId();
-        service.setId(id);
-        const res = await service.getById();
-        expect(res.status).toBe(404);
-      });
-      
-}
-}
+    it( message({ name: "bootcamp" }).noObject,noObject(bootcamp, service, exec) );
+  };
+};

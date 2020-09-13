@@ -4,10 +4,15 @@ const couresSchema=new mongoose.Schema({
     title: {
         type: String,
         trim: true,
+        maxlength: [50, 'Name can not be more than 50 characters'],
+        minlength:[3, 'Name can not be less than 3 characters'],
         required: [true, 'Please add a course title']
       },
       description: {
         type: String,
+        required: [true, 'Please add a description'],
+        maxlength: [500, 'Description can not be more than 500 characters'],
+        minlength:[3, 'Description can not be less than 3 characters'],
         required: [true, 'Please add a description']
       },
       weeks: {

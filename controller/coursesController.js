@@ -16,7 +16,7 @@ module.exports.getById = async (req, res, next) => {
   const course = await Course.findById(req.params.id).cache({key:req.params.id});
   if (!course) {
     return res
-      .status(400)
+      .status(404)
       .json({ success: false, error: "Resource not found" });
   }
   res.status(200).json({ success: true, data: course });
@@ -61,7 +61,7 @@ module.exports.put = async (req, res, next) => {
   // Make sure user is course owner
   if (course.user.toString() !== req.user.id && req.user.role !== "admin") {
     return res
-      .status(401)
+      .status(403)
       .json({
         success: false,
         error: `User ${req.user.id} is not authorized to update course ${course._id}`,
@@ -91,7 +91,7 @@ module.exports.remove = async (req, res, next) => {
   // Make sure user is course owner
   if (course.user.toString() !== req.user.id && req.user.role !== "admin") {
     return res
-      .status(404)
+      .status(403)
       .json({
         success: false,
         error: `User ${req.user.id} is not authorized to delete course ${course._id}`,

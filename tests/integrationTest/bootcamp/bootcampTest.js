@@ -1,21 +1,28 @@
 const Bootcamp = require("../../../models/Bootcamp");
 const User=require("../../../models/User");
 
+const bootcamp = require("./bootcamp");
+
+
 const { getAll } = require("./bootcampGetAll");
 const { getById } = require("./bootcampById");
 const {post}=require('./bootcampPost');
 const {put}=require('./bootcampUpdate');
+const {remove}=require('./bootcampDelete');
 
 module.exports.bootcampTest = () => {
   let server = require("../../../index");
   beforeEach(async () => {
     //  require("../../../index");
     
-    await Bootcamp.collection.dropIndexes();
+   
     
   });
   afterEach(async () => {
-    await Bootcamp.collection.remove({});
+   // await bootcamp.remove()
+     await Bootcamp.collection.dropIndexes();
+     await Bootcamp.collection.remove({});
+  
     await  User.collection.dropIndexes();
     await User.remove({});
     await server.close();
@@ -25,5 +32,6 @@ module.exports.bootcampTest = () => {
   describe("GET /:id", getById(server));
 
   describe('POST /',post(server));
-  describe.only('PUT /',put(server));
+  describe('PUT /',put(server));
+  describe('DELETE /',remove(server));
 };

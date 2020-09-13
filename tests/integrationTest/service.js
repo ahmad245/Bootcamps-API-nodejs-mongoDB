@@ -18,7 +18,7 @@ module.exports= class RequestService{
         return  request(this.server).get(this.path+this.getId())
         .set("Authorization", `Bearer ${this.token}`);  
     }
-  async  postValue(){
+  async postValue(){
         return  await request(this.server).post(this.path)
         .set("Authorization", `Bearer ${this.getToken()}`)
         .send(this.getObj()); 
@@ -29,6 +29,11 @@ module.exports= class RequestService{
       .set("Authorization", `Bearer ${this.getToken()}`)
       .send(this.getObj()); 
     }
+    async deleteValue(){
+        return await request(this.server).delete(this.path+this.getId())
+        .set("Authorization", `Bearer ${this.getToken()}`)
+        .send(); 
+      }
 
 
     getId(){
@@ -48,6 +53,13 @@ module.exports= class RequestService{
     }
     setObj(obj){
         this.obj=obj;
+    }
+
+    getPath(){
+        return this.path;
+    }
+    setPath(path){
+        this.path=path;
     }
 
 }

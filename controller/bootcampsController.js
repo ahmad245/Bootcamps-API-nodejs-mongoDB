@@ -57,9 +57,11 @@ module.exports.remove = async (req, res, next) => {
 
   // If the user is not an admin, they can only add one bootcamp
  if (bootcamp.user.toString() !== req.user.id  && req.user.role !== 'admin') {
-  return  res.status(401).json({ success: false,error:`User ${req.user.id} is not authorized to delete this bootcamp` });
+  return  res.status(403).json({ success: false,error:`User ${req.user.id} is not authorized to delete this bootcamp` });
 }
-  bootcamp.remove();
+  await bootcamp.remove();
+ 
+  
   res.status(200).json({ data: bootcamp, success: true });
 };
 

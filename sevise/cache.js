@@ -24,9 +24,9 @@ mongoose.Query.prototype.exec=async function(){
 
   const key=JSON.stringify(Object.assign({},this.getQuery(),this.getOptions(),{collection:this.mongooseCollection.name}));
   const cache=await client.hget(this.hashKey,key);
-  if(cache){
-    console.log(key,this.hashKey);
-    
+  
+  
+  if(cache){  
     const doc=JSON.parse(cache);
     return Array.isArray(doc)
       ?doc.map(d=>new this.model(d))
@@ -38,6 +38,7 @@ mongoose.Query.prototype.exec=async function(){
    return exec.apply(this,arguments);
 }
 module.exports = {
+  
     clearHash(hashKey) {
       client.del(JSON.stringify(hashKey));
     }

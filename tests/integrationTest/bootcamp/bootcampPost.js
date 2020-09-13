@@ -3,6 +3,7 @@ const { bootcampApi } = require("./bootcampApi");
 const { message } = require("./../message");
 const bootcamp = require("./bootcamp");
 
+const {userNotlogin}=require('./../CommonFailTest');
 
 const Bootcamp = require("../../../models/Bootcamp");
 const User = require("../../../models/User");
@@ -45,15 +46,7 @@ module.exports.post = (server) => {
         // await User.remove({});
        
     });
-    it(message({ name: "bootcamp" }).userNotlogin, async () => {
-      token = "";
-      obj = bootcamp.getBootcampValid();
-      service.setObj(obj);
-      service.setToken(token);
-      const res = await exec();
-      expect(res.status).toBe(401);
-      expect(res.body.success).toBeFalsy();
-    });
+    it(message({ name: "bootcamp" }).userNotlogin, userNotlogin(bootcamp,service,exec));
 
     it(message({ name: "bootcamp" }).saveObject, async () => {
       obj = bootcamp.getBootcampValid();

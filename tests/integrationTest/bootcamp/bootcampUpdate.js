@@ -3,6 +3,8 @@ const { bootcampApi } = require("./bootcampApi");
 const { message } = require("./../message");
 const bootcamp = require("./bootcamp");
 
+const {noPermission,noObject,userNotlogin,invalidId}=require('./../CommonFailTest');
+
 
 const Bootcamp = require("../../../models/Bootcamp");
 const User = require("../../../models/User");
@@ -35,37 +37,19 @@ module.exports.put = (server) => {
       token = userToken.token;
       user = userToken.user;
     
-      const bootcampMock= await bootcamp.createBootcampValidWithUser(user._id);
+      const bootcampMock= await bootcamp.createModelValidWithUser(user._id);
       service.setId(bootcampMock.ops[0]._id);
       service.setToken(token);
     });
     afterEach(async () => {
       
     });
-    it(message({name}).noPermission,async()=>{
-       const  userToken=await bootcamp.getUserToken('ahmad@gmail.com');
-         obj = bootcamp.getBootcampValid();
+    it(message({name}).noPermission,noPermission(bootcamp,service,exec))
+    it(message({ name }).userNotlogin, userNotlogin(bootcamp,service,exec));
 
-         console.log(token);
-         
-        service.setToken(userToken.token);
-       
-        service.setObj(obj);
-        const res = await exec();
-        expect(res.body.success).toBeFalsy();
-        expect(res.status).toBe(403);
+    it(message({ name}).invalidId, invalidId(bootcamp,service,exec));
 
-
-    })
-    it(message({ name }).userNotlogin, async () => {
-      token = "";
-      obj = bootcamp.getBootcampValid();
-      service.setObj(obj);
-      service.setToken(token);
-      const res = await exec();
-      expect(res.status).toBe(401);
-      expect(res.body.success).toBeFalsy();
-    });
+    it(message({ name }).noObject, noObject(bootcamp,service,exec));
 
 
     it(message({ name }).saveObject, async () => {

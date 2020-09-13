@@ -1,4 +1,4 @@
-jest.setTimeout(5000000);
+jest.setTimeout(50000);
 
 const mongoose=require('mongoose');
 mongoose.Promise=global.Promise;
@@ -8,7 +8,7 @@ mongoose.Promise=global.Promise;
       useFindAndModify:false,
       useUnifiedTopology: true
   })
-  .then((conn) => console.log(`Connected to ${conn.connection.host}...`))
+  .then((conn) => console.log(`Connected to ${conn.connection.host}.test..`))
   //.catch((err)=>console.log("err"));
   ;
 
