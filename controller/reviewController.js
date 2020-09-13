@@ -48,7 +48,9 @@ exports.post = async (req, res, next) => {
 
   const bootcamp = await Bootcamp.findById(req.params.bootcampId);
 
+
   if (!bootcamp) {
+    
     return  res.status(404).json({ success: false ,error: `No bootcamp with the id of ${req.params.bootcampId}`});
     
   }
@@ -74,7 +76,7 @@ exports.put = async (req, res, next) => {
 
   // Make sure review belongs to user or user is admin
   if (review.user.toString() !== req.user.id && req.user.role !== 'admin') {
-    return  res.status(401).json({ success: false ,error: `Not authorized to update review`});
+    return  res.status(403).json({ success: false ,error: `Not authorized to update review`});
     
   }
 
@@ -83,7 +85,7 @@ exports.put = async (req, res, next) => {
     runValidators: true
   });
 
-  review.save();
+// await review.save();
 
   res.status(200).json({
     success: true,

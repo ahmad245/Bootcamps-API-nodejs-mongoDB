@@ -21,7 +21,7 @@ const {clearCache}=require('../middelware/clearCache');
 const route = express.Router();
 
 route.use('/:bootcampId/courses',courseRoute);
-route.use('/:bootcampId/courses',reviewRoute);
+route.use('/:bootcampId/reviews',reviewRoute);
 
 route.route("/radius/:zipcode/:distance").get(getByRadius);
 

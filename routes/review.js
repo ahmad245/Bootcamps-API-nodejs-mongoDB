@@ -25,12 +25,12 @@ router
     }),
     getAll
   )
-  .post(protect, authorize('user', 'admin'),clearCache('Review'), post);
+  .post(protect, authorize('user', 'publisher'),clearCache('Review'), post);
 
 router
   .route('/:id')
   .get(getById)
-  .put(protect, authorize('user', 'admin'),clearCache('Review'), put)
-  .delete(protect, authorize('user', 'admin'),clearCache('Review'), remove);
+  .put(protect, authorize('user', 'publisher'),clearCache('Review'), put)
+  .delete(protect, authorize('user', 'publisher'),clearCache('Review'), remove);
 
 module.exports = router;
