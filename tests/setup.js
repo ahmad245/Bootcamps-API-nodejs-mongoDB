@@ -20,4 +20,6 @@ mongoose.Promise=global.Promise;
 
 process.env.GEOCODER_PROVIDER = "mapquest";
 process.env.GEOCODER_API_KEY="W0xFMYBPfAGGbdZ4TtryrqnPvfkTW6JE"
-process.env.GEOCODER_SECRET_KEY="99W6R56Wplgb5vgG"
+process.env.GEOCODER_SECRET_KEY="99W6R56Wplgb5vgG";
+process.env.JWT_SECRET="ahmad";
+process.env.JWT_EXPIRE="30d";

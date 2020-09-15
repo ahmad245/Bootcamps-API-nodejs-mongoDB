@@ -72,4 +72,5 @@ ReviewSchema.post('remove', async function() {
   await this.constructor.getAverageRating(this.bootcamp);
 });
 
-module.exports = mongoose.model('Review', ReviewSchema);
+const Review= mongoose.model('Review', ReviewSchema);
+module.exports=Review;

@@ -37,5 +37,5 @@ module.exports.reviewTest = () => {
 
     describe('POST /',post(server));
    describe('PUT /',put(server));
-  //  describe('DELETE /',remove(server));
+    describe.only('DELETE /',remove(server));
 };

@@ -52,7 +52,7 @@ module.exports.post = (server) => {
       obj = review.getReviewValid();
       service.setObj(obj);
       const res = await exec();
-     console.log(res.body);
+    
      
       const result = await Review.find({ title: "review" });
       expect(res.status).toBe(201);

@@ -13,6 +13,10 @@ class UserModel{
       return {token,user};
     }
 
+    async create(){
+    return  await User.create(this.getValidUser());
+    }
+
     getValidUser(email){
         return user({email});
     }

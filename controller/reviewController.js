@@ -106,7 +106,7 @@ exports.remove = async (req, res, next) => {
 
   // Make sure review belongs to user or user is admin
   if (review.user.toString() !== req.user.id && req.user.role !== 'admin') {
-    return  res.status(401).json({ success: false ,error: `Not authorized to update review`});
+    return  res.status(403).json({ success: false ,error: `Not authorized to update review`});
     
   }
 

@@ -1,18 +1,18 @@
 
-const { courseApi } = require("./reviewApi");
+const { reviewApi } = require("./reviewApi");
 const { message } = require("./../message");
-const course = require("./review");
+const review = require("./review");
 
 const {userNotlogin,noObject,noPermission,invalidId}=require('./../CommonFailTest');
 
-const Course = require("../../../models/Course");
+const Review = require("../../../models/Review");
 
 const Service=require('./../service');
 
-const name="course";
+const name="review";
 
 module.exports.remove = (server) => {
-    const service=new Service(server,courseApi().DELETE);
+    const service=new Service(server,reviewApi().DELETE);
   return () => {
    
     let token='';
@@ -27,28 +27,28 @@ module.exports.remove = (server) => {
 
     beforeEach(async () => {
      
-      const userToken = await course.getUserToken();
+      const userToken = await review.getUserToken();
       token = userToken.token;
       user = userToken.user;
      // const bootcampMock= await bootcamp.createModelValidWithUser(user._id);
-      const courseMock=await course.createModelValidWithUser(user._id);
-      id=courseMock.ops[0]._id;
-      service.setId(courseMock.ops[0]._id);
+      const reviewMock=await review.createModelValidWithUser(user._id);
+      id=reviewMock.ops[0]._id;
+      service.setId(reviewMock.ops[0]._id);
       service.setToken(token);
     });
     afterEach(async () => {
     });
 
-    it(message({ name}).userNotlogin, userNotlogin(course,service,exec));
-    it(message({name}).noPermission,noPermission(course,service,exec))
+    it(message({ name}).userNotlogin, userNotlogin(review,service,exec));
+    it(message({name}).noPermission,noPermission(review,service,exec))
 
-    it(message({ name}).invalidId, invalidId(course,service,exec));
+    it(message({ name}).invalidId, invalidId(review,service,exec));
 
-    it(message({ name }).noObject, noObject(course,service,exec));
+    it(message({ name }).noObject, noObject(review,service,exec));
 
     it(message({ name }).deleteIfInputValid, async () => {
         const res = await exec();
-        const result = await Course.findById(id);
+        const result = await Review.findById(id);
       
         expect(result).toBeNull();
         expect(res.body.success).toBeTruthy();
