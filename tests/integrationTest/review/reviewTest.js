@@ -21,7 +21,7 @@ module.exports.reviewTest = () => {
    // await bootcamp.remove()
      await Bootcamp.collection.dropIndexes();
      await Bootcamp.remove({});
-
+     await Review.collection.dropIndexes( {  bootcamp: 1, user: 1 } )
      await Review.collection.dropIndexes();
      await Review.remove({});
 
@@ -37,5 +37,5 @@ module.exports.reviewTest = () => {
 
     describe('POST /',post(server));
    describe('PUT /',put(server));
-    describe.only('DELETE /',remove(server));
+    describe('DELETE /',remove(server));
 };

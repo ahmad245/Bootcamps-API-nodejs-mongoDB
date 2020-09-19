@@ -17,7 +17,9 @@ const cookieParser = require('cookie-parser');
 
 const connectDB=require('./config/db');
 
-dotenv.config({path:'./config/config.env'});
+console.log(process.env.NODE_ENV);
+
+dotenv.config({path:`./config/${process.env.NODE_ENV}.env`});
 if (process.env.NODE_ENV !== 'test') {
   connectDB();
 }

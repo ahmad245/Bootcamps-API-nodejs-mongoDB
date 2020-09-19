@@ -4,6 +4,7 @@ const geocoder = require("../utils/geocoder");
 module.exports.getAll = async (req, res, next) => {
     res.status(200).json(res.advancedResults);
     
+    
 };
 module.exports.getById = async (req, res, next) => {
   const bootcamp = await Bootcamp.findById(req.params.id).cache({key:req.params.id});

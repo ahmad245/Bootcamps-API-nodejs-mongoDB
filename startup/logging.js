@@ -44,7 +44,7 @@ const logger = winston.createLogger({
   //
   console.log(process.env.NODE_ENV);
   
-  if (!( ['test','production'].includes(process.env.NODE_ENV))) {
+  if (!( ['ci','test','prod'].includes(process.env.NODE_ENV))) {
     logger.add(new winston.transports.Console({
       format: winston.format.simple(),
     }));
